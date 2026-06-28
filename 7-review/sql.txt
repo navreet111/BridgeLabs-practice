@@ -1,0 +1,111 @@
+
+CREATE TABLE Employee1(
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT,
+    age INT,
+    city VARCHAR(50),
+    manager_id INT,
+    joining_date DATE
+);
+
+
+INSERT INTO Employee1
+(emp_id,name,department,salary,age,city,manager_id,joining_date)
+VALUES
+(101,'Reet','HR',70000,40,'Delhi',NULL,'2018-01-15'),
+(102,'Ayush','IT',80000,41,'Pathankot',101,'2018-01-17'),
+(103,'Ansh','Sales',80000,42,'Rajpura',101,'2018-02-15'),
+(104,'Milan','IT',90000,46,'Amritsar',102,'2018-03-15'),
+(105,'Rishu','Sales',75000,40,'Chandigarh',101,'2018-02-17'),
+(106,'Raman','HR',500000,44,'Delhi',NULL,'2018-01-19'),
+(107,'Navreet','IT',110000,49,'Jalandhar',102,'2018-07-16'),
+(108,'Ravneet','HR',30000,45,'Noida',102,'2018-04-19'),
+(109,'Riya','Data Analyst',10000,40,'Chandigarh',103,'2018-08-13'),
+(110,'Manya','Sales',90000,43,'Noida',103,'2018-01-17'),
+(111,'Tanreet','HR',100000,45,'Rajpura',101,'2018-08-13');
+
+
+SELECT * FROM Employee1;
+SELECT name FROM Employee;
+
+SELECT * FROM Employee1 WHERE city='Delhi';
+
+SELECT * FROM Employee1 WHERE department='IT';
+
+SELECT * FROM Employee1 WHERE age BETWEEN 30 AND 50;
+
+SELECT * FROM Employee1 WHERE name LIKE 'T%';
+
+SELECT * FROM Employee1 WHERE salary IS NULL;
+
+
+SELECT * FROM Employee1 WHERE salary>50000;
+
+
+SELECT * FROM Employee1 WHERE joining_date>=DATEADD(DAY,-30,GETDATE());
+
+SELECT * FROM Employee1 ORDER BY salary ASC;
+
+
+SELECT * FROM Employee1 ORDER BY salary DESC;
+
+SELECT TOP 5 * FROM Employee1;
+SELECT COUNT(*) AS Total_Employees FROM Employee1;
+SELECT MAX(salary) AS Highest_Salary FROM Employee1;
+
+SELECT MIN(salary) AS Minimum_Salary FROM Employee1;
+
+SELECT SUM(salary) AS Total_Salary FROM Employee1;
+SELECT AVG(salary) AS Average_Salary FROM Employee1;
+SELECT MAX(salary) AS Second_Highest_Salary FROM Employee1
+WHERE salary <(SELECT MAX(salary) FROM Employee1);
+
+SELECT DISTINCT TOP 1 salary FROM
+(
+    SELECT DISTINCT TOP 3 salary
+    FROM Employee1
+    ORDER BY salary DESC
+) AS Temp
+ORDER BY salary ASC;
+
+SELECT TOP 1 department, AVG(salary) AS Average_Salary
+FROM Employee1
+GROUP BY department
+ORDER BY AVG(salary) DESC;
+
+
+SELECT e.emp_id, e.name AS Employee_Name, m.name AS Manager_Name FROM Employee1 e LEFT JOIN Employee1 m
+ON e.manager_id=m.emp_id;
+
+
+SELECT TOP 3 * FROM Employee1 ORDER BY salary DESC;
+
+
+SELECT * FROM Employee1 WHERE salary >
+(
+    SELECT MAX(salary)
+    FROM Employee1
+    WHERE department='HR'
+);
+
+INSERT INTO Employee1 VALUES
+(112,'Rishu','Sales',75000,40,'Chandigarh',101,'2018-02-17'),
+(113,'Rishu','Sales',75000,40,'Chandigarh',101,'2018-02-17');
+
+
+DELETE e1 FROM Employee1 e1 JOIN Employee1 e2 ON e1.name=e2.name AND e1.department=e2.department
+AND e1.salary=e2.salary
+AND e1.age=e2.age
+AND e1.city=e2.city
+AND e1.manager_id=e2.manager_id
+AND e1.joining_date=e2.joining_date
+AND e1.emp_id>e2.emp_id;
+
+SELECT * FROM Employee1 ORDER BY joining_date;
+
+SELECT * FROM Employee1 WHERE age>40;
+
+SELECT * FROM Employee1 WHERE city='Noida';
+
